@@ -1787,6 +1787,39 @@ def render_html_content(
                 opacity: 0.6;
                 cursor: not-allowed;
             }
+
+            .scroll-buttons {
+                position: fixed;
+                right: 16px;
+                bottom: 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                z-index: 1000;
+            }
+
+            .scroll-btn {
+                background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+                border: none;
+                color: #fff;
+                padding: 10px 14px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 13px;
+                font-weight: 500;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+                transition: transform 0.15s ease, box-shadow 0.15s ease;
+            }
+
+            .scroll-btn:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            }
+
+            .scroll-btn:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            }
             
             .header-title {
                 font-size: 22px;
@@ -2143,6 +2176,15 @@ def render_html_content(
                 .save-btn {
                     width: 100%;
                 }
+                .scroll-buttons {
+                    right: 12px;
+                    bottom: 16px;
+                    gap: 6px;
+                }
+                .scroll-btn {
+                    padding: 9px 12px;
+                    font-size: 13px;
+                }
             }
         </style>
     </head>
@@ -2401,8 +2443,25 @@ def render_html_content(
                 </div>
             </div>
         </div>
+
+        <div class="scroll-buttons">
+            <button class="scroll-btn" onclick="scrollToTop()">↑ </button>
+            <button class="scroll-btn" onclick="scrollToBottom()">↓ </button>
+        </div>
         
         <script>
+            function scrollToTop() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function scrollToBottom() {
+                const bottom = Math.max(
+                    document.documentElement.scrollHeight,
+                    document.body.scrollHeight
+                );
+                window.scrollTo({ top: bottom, behavior: 'smooth' });
+            }
+            
             async function saveAsImage() {
                 const button = event.target;
                 const originalText = button.textContent;
